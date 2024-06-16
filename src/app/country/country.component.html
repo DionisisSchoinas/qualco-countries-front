@@ -1,0 +1,23 @@
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Area</th>
+        <th scope="col">Country Code 2</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+        @for (country of countries; track country.id){
+            <tr>
+                <td scope="row">{{country.name}}</td>
+                <td>{{country.area}}</td>
+                <td>{{country.countryCode2}}</td>
+                <td>
+                    <a class="btn btn-primary" href="/country-data/{{country.id}}/languages">Languages</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+  </table>
