@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="row g-3">
+<form [formGroup]="form" (ngSubmit)="load()" class="row g-3">
     <div class="col-md-12">
         <label for="region" class="form-label">Region</label>
         <select formControlName="regionId" class="form-control" id="region" >
@@ -21,9 +21,29 @@
     </div>
 </form>
 
-<table class="table">
+<div class="d-flex justify-content-between p-2">
+    <ngb-pagination 
+        [collectionSize]="(paged?.totalElements)!" 
+        [(page)]="page" 
+        [pageSize]="pageSize" 
+        [maxSize]="5" 
+        [rotate]="true" 
+        [ellipses]="false" 
+        [boundaryLinks]="true"
+        (pageChange)="load()"
+      >
+    </ngb-pagination>
+    <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="pageSize" (ngModelChange)="load()">
+      <option [ngValue]="10">10 items per page</option>
+      <option [ngValue]="25">25 items per page</option>
+      <option [ngValue]="50">50 items per page</option>
+    </select>
+  </div>
+  
+  <table class="table">
     <thead>
       <tr>
+        <th scope="col">#</th>
         <th scope="col">Continent</th>
         <th scope="col">Region</th>
         <th scope="col">Country</th>
@@ -33,15 +53,39 @@
       </tr>
     </thead>
     <tbody>
-        @for (region of regionStats; track region){
+        @for (region of paged?.content; track $index){
             <tr>
-                <td scope="row">{{region.continentName}}</td>
+                <td scope="row">{{(page-1) * pageSize + $index + 1}}</td>
+                <td>{{region.continentName}}</td>
                 <td>{{region.regionName}}</td>
                 <td>{{region.countryName}}</td>
                 <td>{{region.year}}</td>
                 <td>{{region.population}}</td>
                 <td>{{region.gdp}}</td>
             </tr>
-        }
+        } @empty {
+            <tr>
+              <td colspan="7" style="text-align: center">No regions found</td>
+            </tr>
+          }
     </tbody>
   </table>
+
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination 
+        [collectionSize]="(paged?.totalElements)!" 
+        [(page)]="page" 
+        [pageSize]="pageSize" 
+        [maxSize]="5" 
+        [rotate]="true" 
+        [ellipses]="false" 
+        [boundaryLinks]="true"
+        (pageChange)="load()"
+      >
+    </ngb-pagination>
+    <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="pageSize" (ngModelChange)="load()">
+      <option [ngValue]="10">10 items per page</option>
+      <option [ngValue]="25">25 items per page</option>
+      <option [ngValue]="50">50 items per page</option>
+    </select>
+  </div>
