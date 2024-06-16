@@ -1,1 +1,22 @@
-<p>country-gdp works!</p>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Country Code 3</th>
+        <th scope="col">Year</th>
+        <th scope="col">Population</th>
+        <th scope="col">Gdp</th>
+      </tr>
+    </thead>
+    <tbody>
+        @for (country of countries; track $index){
+            <tr>
+                <td scope="row">{{country.name}}</td>
+                <td>{{country.countryCode3}}</td>
+                <td>{{country.year}}</td>
+                <td>{{country.population}}</td>
+                <td>{{country.gdp}}</td>
+            </tr>
+        }
+    </tbody>
+  </table>
