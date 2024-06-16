@@ -1,1 +1,47 @@
-<p>region-data works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="row g-3">
+    <div class="col-md-12">
+        <label for="region" class="form-label">Region</label>
+        <select formControlName="regionId" class="form-control" id="region" >
+            <option value="0">-</option>
+            @for (region of regions; track region.id){
+                <option value="{{region.id}}">{{region.name}}</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label for="dateFrom" class="form-label">Date From: </label>
+        <input type="date" formControlName="dateFrom" class="form-control" id="dateFrom">
+    </div>
+    <div class="col-md-6">
+        <label for="dateTo" class="form-label">Date To: </label>
+        <input type="date" formControlName="dateTo" class="form-control" id="dateTo">
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Continent</th>
+        <th scope="col">Region</th>
+        <th scope="col">Country</th>
+        <th scope="col">Year</th>
+        <th scope="col">Population</th>
+        <th scope="col">Gdp</th>
+      </tr>
+    </thead>
+    <tbody>
+        @for (region of regionStats; track region){
+            <tr>
+                <td scope="row">{{region.continentName}}</td>
+                <td>{{region.regionName}}</td>
+                <td>{{region.countryName}}</td>
+                <td>{{region.year}}</td>
+                <td>{{region.population}}</td>
+                <td>{{region.gdp}}</td>
+            </tr>
+        }
+    </tbody>
+  </table>
