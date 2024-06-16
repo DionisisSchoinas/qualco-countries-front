@@ -1,1 +1,7 @@
-<p>country-languages works!</p>
+<a class="btn btn-primary" href="/country-data">Back to Country List</a>
+<h2 style="padding-top: 1em;">Languages</h2>
+<ul class="list-group">
+    @for (language of languages; track $index) {
+        <li class="list-group-item">{{language.language}}</li>
+    }
+</ul>
