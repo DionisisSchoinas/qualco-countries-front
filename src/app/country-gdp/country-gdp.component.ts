@@ -1,24 +1,34 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { CountryGdp } from '../models/country-gdp.model';
+import { Paged } from '../models/paged.model';
+import { FormsModule } from '@angular/forms';
+import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-country-gdp',
   standalone: true,
-  imports: [HttpClientModule],
+  imports: [HttpClientModule, NgbHighlight, NgbPaginationModule, FormsModule],
   templateUrl: './country-gdp.component.html',
   styleUrl: './country-gdp.component.css'
 })
 export class CountryGdpComponent {  
-  public countries: CountryGdp[] = [];
+  
+  public paged?: Paged;
+
+  public page: number = 1;
+  public pageSize: number= 10;
 
   constructor(private httpClient: HttpClient) {}
 
   ngOnInit() {
+    this.load();
+  }
+
+  load() {
     this.httpClient
-      .get("http://localhost:9095/countries/gdp")
+      .post("http://localhost:9095/countries/gdp", {"page": this.page-1, "size": this.pageSize})
       .subscribe({
-          next: (data: any) => this.countries = data,
+          next: (data: any) => this.paged = data,
           error: (err) => console.log(err)
         }
       );
