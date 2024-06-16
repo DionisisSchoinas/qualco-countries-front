@@ -1,25 +1,34 @@
 import { Component } from '@angular/core';
-import { Country } from '../models/country.model';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Paged } from '../models/paged.model';
+import { FormsModule } from '@angular/forms';
+import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-country',
   standalone: true,
-  imports: [HttpClientModule],
+  imports: [HttpClientModule, NgbHighlight, NgbPaginationModule, FormsModule],
   templateUrl: './country.component.html',
   styleUrl: './country.component.css'
 })
 export class CountryComponent {
   
-  public countries: Country[] = [];
+  public paged?: Paged;
+
+  public page: number = 1;
+  public pageSize: number= 10;
 
   constructor(private httpClient: HttpClient) {}
 
   ngOnInit() {
+    this.load();
+  }
+
+  load() {
     this.httpClient
-      .get("http://localhost:9095/countries")
+      .post("http://localhost:9095/countries", {"page": this.page-1, "size": this.pageSize})
       .subscribe({
-          next: (data: any) => this.countries = data,
+          next: (data: any) => this.paged = data,
           error: (err) => console.log(err)
         }
       );

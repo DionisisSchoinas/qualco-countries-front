@@ -1,23 +1,65 @@
+<div class="d-flex justify-content-between p-2">
+  <ngb-pagination 
+      [collectionSize]="(paged?.totalElements)!" 
+      [(page)]="page" 
+      [pageSize]="pageSize" 
+      [maxSize]="5" 
+      [rotate]="true" 
+      [ellipses]="false" 
+      [boundaryLinks]="true"
+      (pageChange)="load()"
+    >
+  </ngb-pagination>
+  <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="pageSize" (ngModelChange)="load()">
+    <option [ngValue]="10">10 items per page</option>
+    <option [ngValue]="25">25 items per page</option>
+    <option [ngValue]="50">50 items per page</option>
+  </select>
+</div>
 
-<table class="table">
+<table class="table table-striped">
     <thead>
       <tr>
+        <th scope="col">#</th>
         <th scope="col">Name</th>
         <th scope="col">Area</th>
-        <th scope="col">Country Code 2</th>
-        <th scope="col"></th>
+        <th scope="col" colspan="2">Country Code 2</th>
       </tr>
     </thead>
     <tbody>
-        @for (country of countries; track country.id){
+        @for (country of paged?.content; track country.id){
             <tr>
-                <td scope="row">{{country.name}}</td>
+                <td scope="row">{{(page-1) * pageSize + $index + 1}}</td>
+                <td>{{country.name}}</td>
                 <td>{{country.area}}</td>
                 <td>{{country.countryCode2}}</td>
                 <td>
                     <a class="btn btn-primary" href="/country-data/{{country.id}}/languages">Languages</a>
                 </td>
             </tr>
+        } @empty {
+          <tr>
+            <td colspan="5" style="text-align: center">No countries found</td>
+          </tr>
         }
     </tbody>
-  </table>
+</table>
+
+<div class="d-flex justify-content-between p-2">
+  <ngb-pagination 
+      [collectionSize]="(paged?.totalElements)!" 
+      [(page)]="page" 
+      [pageSize]="pageSize" 
+      [maxSize]="5" 
+      [rotate]="true" 
+      [ellipses]="false" 
+      [boundaryLinks]="true"
+      (pageChange)="load()"
+    >
+  </ngb-pagination>
+  <select class="form-select" style="width: auto" name="pageSize" [(ngModel)]="pageSize" (ngModelChange)="load()">
+    <option [ngValue]="10">10 items per page</option>
+    <option [ngValue]="25">25 items per page</option>
+    <option [ngValue]="50">50 items per page</option>
+  </select>
+</div>
