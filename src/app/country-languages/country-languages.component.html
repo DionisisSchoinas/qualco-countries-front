@@ -3,5 +3,9 @@
 <ul class="list-group">
     @for (language of languages; track $index) {
         <li class="list-group-item">{{language.language}}</li>
-    }
+    } @empty {
+        <tr>
+          <td style="text-align: center">No languages found</td>
+        </tr>
+      }
 </ul>
